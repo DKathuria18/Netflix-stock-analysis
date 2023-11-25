@@ -4,3 +4,29 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 from datetime import datetime
+
+
+data = pd.read_csv('NFLX.csv')
+
+data
+
+data.head()
+
+sns.set(rc={'figure.figsize' :(10,5)})
+
+
+data['Date'] = pd.to_datetime(data['Date'])
+data = data.set_index('Date')
+data
+
+sns.lineplot(x = data.index, y = data['Volume'], label = 'Volume')
+plt.title('Volume of stock vs time')
+
+
+data.plot(y = ["High","Close","Open"], title = 'Netflix Stock price') 
+
+
+fig, (ax1,ax2,ax3) = plt.subplots(3, figsize = (15,10))
+data.groupby(data.index.day).mean().plot( y = 'Volume', ax = ax1, xlabel = 'Day')
+data.groupby(data.index.month).mean().plot( y = 'Volume', ax = ax2, xlabel = 'Month')
+data.groupby(data.index.year).mean().plot(y = 'Volume', ax = ax3, xlabel = 'year')
